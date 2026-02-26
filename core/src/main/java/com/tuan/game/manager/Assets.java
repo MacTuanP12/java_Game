@@ -8,10 +8,14 @@ public class Assets {
 
     public static final String PLAYER_IMG = "images/player.png";
     public static final String BUG_IMG = "images/bug.png";
+    public static final String PROJECTILE_IMG = "images/projectile.png";
+    public static final String EXP_GEM_IMG = "images/experienceGem.png";
 
     public void load() {
         assetManager.load(PLAYER_IMG, com.badlogic.gdx.graphics.Texture.class);
         assetManager.load(BUG_IMG, com.badlogic.gdx.graphics.Texture.class);
+        assetManager.load(PROJECTILE_IMG, com.badlogic.gdx.graphics.Texture.class);
+        assetManager.load(EXP_GEM_IMG, com.badlogic.gdx.graphics.Texture.class);
         assetManager.finishLoading();
     }
     public Texture getTexture(String name) {

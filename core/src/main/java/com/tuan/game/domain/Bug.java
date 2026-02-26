@@ -11,6 +11,10 @@ public class Bug {
     private Texture texture;
     private final float width = 32, height = 32; // Kích thước quái vật
 
+    public Vector2 getPosition() {
+        return position;
+    }
+
     public Bug(Texture texture, float x, float y) {
         this.texture = texture;
         this.position = new Vector2(x, y);
@@ -24,6 +28,7 @@ public class Bug {
         // Di chuyển Bug theo hướng đó
         position.add(direction.scl(speed * delta));
     }
+
 
     public void draw(SpriteBatch batch) {
         batch.draw(texture, position.x, position.y, width, height);
