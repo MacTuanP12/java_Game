@@ -17,72 +17,66 @@ import com.tuan.game.MyGdxGame;
 public class GameOverScreen implements Screen {
     private final MyGdxGame game;
     private Stage stage;
-    private int finalLevel;
-
+    private final int finalLevel;
 
     public GameOverScreen(MyGdxGame game, int level) {
-        this.game = game;
+        this.game       = game;
         this.finalLevel = level;
-
     }
 
     @Override
-    public  void show() {
+    public void show() {
         stage = new Stage(new ScreenViewport(), game.batch);
-        //cho phép stage xử lý input
         Gdx.input.setInputProcessor(stage);
-        // tạo table để sắp xếp thành phần UI
+
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
 
-        // game over
-        Label.LabelStyle labelStyle = new Label.LabelStyle(game.font, com.badlogic.gdx.graphics.Color.WHITE);
-        Label gameOverLabel = new Label("Game Over", labelStyle);
-        gameOverLabel.setFontScale(3); // Tăng kích thước font
+        // Tiêu đề
+        Label.LabelStyle bigStyle = new Label.LabelStyle(game.fontLarge, Color.RED);
+        Label gameOverLabel = new Label("GAME OVER", bigStyle);
 
-//thông tin kết quả
-        Label levelLabel = new Label("You reached level: " + finalLevel, labelStyle);
-        levelLabel.setFontScale(2); // Tăng kích thước font
+        // Kết quả
+        Label.LabelStyle normalStyle = new Label.LabelStyle(game.font, Color.WHITE);
+        Label levelLabel = new Label("Ban da dat cap do: " + finalLevel, normalStyle);
 
-        // nút restart
-        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = game.font;
-        buttonStyle.fontColor = Color.WHITE;
-        buttonStyle.overFontColor = Color.YELLOW; // Đổi màu khi di chuột qua
+        // Nút
+        TextButton.TextButtonStyle btnStyle = new TextButton.TextButtonStyle();
+        btnStyle.font         = game.fontLarge;
+        btnStyle.fontColor    = Color.WHITE;
+        btnStyle.overFontColor = Color.YELLOW;
 
-        TextButton restartButton = new TextButton("RESTART GAME", buttonStyle);
+        TextButton btnRestart = new TextButton("↺  Choi lai", btnStyle);
+        TextButton btnQuit    = new TextButton("✕  Thoat", btnStyle);
 
-        // sự kiện khi nhấn nút
-        restartButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // Chuyển lại về PlayScreen để chơi lại từ đầu
+        btnRestart.addListener(new ClickListener() {
+            @Override public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new PlayScreen(game));
             }
         });
-        table.add(gameOverLabel).padBottom(20).row();// cách nhau giữa các thành phần
+        btnQuit.addListener(new ClickListener() {
+            @Override public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
+
+        table.add(gameOverLabel).padBottom(30).row();
         table.add(levelLabel).padBottom(50).row();
-        table.add(restartButton);
+        table.add(btnRestart).padBottom(20).row();
+        table.add(btnQuit);
     }
+
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0,0,0,1);
+        ScreenUtils.clear(0.05f, 0f, 0f, 1);
         stage.act(delta);
         stage.draw();
     }
-    @Override
-    public void dispose() {
-        stage.dispose();
-    }
-    @Override
-    public void resize(int width, int height) {}
-    @Override
-    public void pause() {}
-    @Override
-    public void resume() {}
-    @Override
-    public void hide() {}
 
-
+    @Override public void resize(int w, int h) { stage.getViewport().update(w, h, true); }
+    @Override public void dispose() { stage.dispose(); }
+    @Override public void pause()   {}
+    @Override public void resume()  {}
+    @Override public void hide()    {}
 }
